@@ -47,3 +47,23 @@ const validateSums = () => {
         document.write("House wins. Your cards are over 21.")
     }
 }
+
+
+/*************** EXTRA CHALLENGES ***************/
+
+/* Lesson 4: First if-else statements
+    1. Check if person's age is 21 or over.
+    2. Log message to console
+Tepper, 18NOV2022 */
+
+const bouncer = () => {
+    let clubgoer = parseInt(prompt("How old are you?"));
+
+    if (isNaN(clubgoer) || clubgoer < 21) {
+        console.log("Party's for 21+ only. Come back when you're 21.");
+    }
+    else if (clubgoer >= 21) {
+        console.log("Welcome and enjoy the party!");
+    }
+}
+bouncer();
