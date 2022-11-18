@@ -37,5 +37,13 @@ const cardSums = () => {
 Tepper, 18NOV2022 */
 
 const validateSums = () => {
-    
+    if (sum < 21) {
+        document.write("Do you want to draw a new card?")
+    }
+    else if (sum === 21) {
+        document.write("House folds. You've got Blackjack!")
+    }
+    else if(sum > 21) {
+        document.write("House wins. Your cards are over 21.")
+    }
 }
