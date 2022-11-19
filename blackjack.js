@@ -8,24 +8,64 @@ Dominique Tepper, 18NOV2022
 "use strict";
 
 /* LESSON 2: Add vars firstCard, secondCard, sum
-    A. firstCard and secondCard - set value to random number between 2-11
-    B. sum = firstCard + secondCard
+        A. firstCard and secondCard - set value to random number between 2-11
+        B. sum = firstCard + secondCard
+    LESSON 7: var hasBlackJack
+    LESSON 8: var isAlive
+        A. Create var isAlive with value "true"
+        B. Flip value to "false" in appropriate code block
 Tepper, 18NOV2022*/
 
 let firstCard = 0;
 let secondCard = 0;
 let sum = 0;
+let hasBlackJack = false;
+let isAlive = true; // Lesson 8A
 
-// firstCard
+/* FIRSTCARD FUNCTIONS. Tepper, 18NOV2022 */
+// firstCard random value generator
 const kort1 = () => {
     let korten1 = Math.floor(Math.random() * 11) + 1;
     firstCard = korten1;
 }
 
-// secondCard
+// firstCard draw prompt
+const getKort1 = () => {
+    let getFirstCard = "";
+
+    getFirstCard = prompt("Draw first card? (Y/N)", "Y");
+
+    while (getFirstCard != "Y" || getFirstCard != "y") {
+        if (getFirstCard === "y" || getFirstCard === "Y") {
+            kort1();
+        }
+        else {
+            getFirstCard = prompt("Ready for your first card? (Y/N)", "Y");
+        }
+    }
+}
+
+/* SECONDCARD FUNCTIONS. Tepper, 18NOV2022 */
+// secondCard random value generator
 const kort2 = () => {
     let korten2 = Math.floor(Math.random() * 11) + 1;
     secondCard = korten2;
+}
+
+// secondCard draw prompt
+const getKort2 = () => {
+    let getSecondCard = "";
+
+    getSecondCard = prompt("Draw next card? (Y/N)", "Y");
+
+    while (getSecondCard != "Y" || getSecondCard != "y") {
+        if (getSecondCard === "y" || getSecondCard === "Y") {
+            kort2();
+        }
+        else {
+            getSecondCard = prompt("Dealer is ready. Draw next card? (Y/N)", "Y");
+        }
+    }
 }
 
 // sum
@@ -39,15 +79,21 @@ const cardSums = () => {
 Tepper, 18NOV2022 */
 
 const validateSums = () => {
-    if (sum < 21) {
-        document.write("Do you want to draw a new card?")
+    if (sum <= 20) {
+        console.log("Do you want to draw a new card?");
     }
     else if (sum === 21) {
-        document.write("House folds. You've got Blackjack!")
+        console.log("House folds. You've got Blackjack!");
+        hasBlackJack = true; // Lesson 7
     }
     else if(sum > 21) {
-        document.write("House wins. Your cards are over 21.")
+        console.log("House wins. Your cards are over 21.");
     }
+}
+
+const blackjackDealer = () => {
+    
+
 }
 
 
@@ -108,3 +154,16 @@ function footer() {
     footerEl.textContent = footerStr;
 }
 footer();
+
+/* NOTES / REMINDERS
+    1. Player and dealer is dealt 2 cards
+        a. player goes first
+        b. dealer only 'shows' value of 1 of 2 cards
+    2. If player "hit" => draw 3rd card; else, "stay" == keep sumCards; 3 cards max
+    3. results calculated as:
+        a. player < dealer <= 21 == house wins
+        b. dealer < player <= 21 == player wins
+        c. (player == dealer) <= 21 == 'push' (neither win or lose)
+
+How to play reference: https://www.youtube.com/watch?v=PljDuynF-j0
+*/
