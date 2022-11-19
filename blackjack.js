@@ -53,12 +53,37 @@ const validateSums = () => {
 
 /*************** EXTRA CHALLENGES ***************/
 
+/* Lesson 5: IF/ELSE...IF/ELSE STATEMENT
+    Check if the person is eligible for a birthday card from the King
+Tepper, 18NOV2022 */
+
+/* const centennial = () => {
+    let recipientAge = parseInt(prompt("How old are you?"));
+
+    if (isNaN(recipientAge)) {
+        console.error("Non-numeric input.")
+        recipientAge = parseInt(prompt("Age IS a number. Please enter your age."));
+    }
+    else {
+        if (recipientAge < 100) {
+        console.log("Sorry, you're only " + recipientAge + ", thus, ineligible for a birthday card from the King at this time.");
+        }
+        else if (recipientAge > 100) {
+            console.log("You already received a card " + (recipientAge - 100) + " years ago.");
+        }
+        else if (recipientAge == 100) {
+            console.log("Your birthday card from the King will arrive in 5-7 business days. Happy birthday!")
+        }
+    }
+}
+centennial(); */
+
 /* Lesson 4: First if-else statements
     1. Check if person's age is 21 or over.
     2. Log message to console
 Tepper, 18NOV2022 */
 
-const bouncer = () => {
+/* const bouncer = () => {
     let clubgoer = parseInt(prompt("How old are you?"));
 
     if (isNaN(clubgoer) || clubgoer < 21) {
@@ -68,7 +93,7 @@ const bouncer = () => {
         console.log("You said you were " + clubgoer + ". Welcome and enjoy the party!");
     }
 }
-bouncer();
+bouncer(); */
 
 /* FOOTER. Tepper, 06NOV2022 *******************************************/
 const today = new Date();
