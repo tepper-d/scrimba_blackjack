@@ -62,7 +62,7 @@ const bouncer = () => {
     let clubgoer = parseInt(prompt("How old are you?"));
 
     if (isNaN(clubgoer) || clubgoer < 21) {
-        console.log("Party's for 21+ only. Come back when you're 21.");
+        console.log("Sorry, you're only " + clubgoer + ". Party's for 21+ only.");
     }
     else if (clubgoer >= 21) {
         console.log("You said you were " + clubgoer + ". Welcome and enjoy the party!");

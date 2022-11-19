@@ -11,9 +11,13 @@ body {
     background-color: #FFEFD3;
     margin: 0 auto;
     width: 500px;
-    border: 3px solid #C57B57;
+    border: 3px solid #62929E;
     padding: 0 2em 1em;
     color: #2E4057;
+}
+
+h1 {
+    color: #C57B57;
 }
 
 
