@@ -5,6 +5,8 @@ Build a Blackjack game, https://scrimba.com/playlist/p3py7U7
 Dominique Tepper, 18NOV2022
 */
 
+"use strict";
+
 /* LESSON 2: Add vars firstCard, secondCard, sum
     A. firstCard and secondCard - set value to random number between 2-11
     B. sum = firstCard + secondCard
@@ -63,7 +65,21 @@ const bouncer = () => {
         console.log("Party's for 21+ only. Come back when you're 21.");
     }
     else if (clubgoer >= 21) {
-        console.log("Welcome and enjoy the party!");
+        console.log("You said you were " + clubgoer + ". Welcome and enjoy the party!");
     }
 }
 bouncer();
+
+/* FOOTER. Tepper, 06NOV2022 *******************************************/
+const today = new Date();
+let footerEl = document.getElementById("footer-el");
+
+function footer() {
+    // local variables
+    let studentName = "tepper-d, ";
+    let whatisToday = today.toDateString() + ".";
+    
+    const footerStr = studentName + whatisToday;
+    footerEl.textContent = footerStr;
+}
+footer();
