@@ -1,0 +1,44 @@
+/*
+CIS 124: Introduction to JavaScript
+Module 6: Scrimba Exercises
+Build a Blackjack game, https://scrimba.com/playlist/p3py7U7
+Dominique Tepper, 18NOV2022
+*/
+
+/* BODY. Tepper, 18NOV2022 */
+body {
+    font-family: 'Questrial', sans-serif;
+    background-color: #FFEFD3;
+    margin: 0 auto;
+    width: 500px;
+    border: 3px solid #C57B57;
+    padding: 0 2em 1em;
+    color: #2E4057;
+}
+
+
+/* FOOTER. Tepper, 18NOV2022 */
+footer {
+    font-family: 'Overlock SC', cursive;
+    font-display: block;
+    background-color: #4A6D7C;
+    width: 310px;
+    color: #C57B57;
+    padding-left: 38%;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+/*
+FONTS:
+    font-family: 'Overlock SC', cursive;
+    font-family: 'Questrial', sans-serif;
+
+COLORS:
+    <bg> Papaya Whip: FFEFD3
+    <color> Charcoal: 2E4057
+        Steel Teal: 62929E
+        Cadet: 4A6D7C
+        Copper Crayola: C57B57
+        Tumbleweed: F1AB86
+*/
