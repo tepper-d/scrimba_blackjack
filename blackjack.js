@@ -16,11 +16,14 @@ Dominique Tepper, 18NOV2022
         B. Flip value to "false" in appropriate code block
 Tepper, 18NOV2022*/
 
+
+/* GLOBAL VARS. Tepper, 18NOV2022 */
 let firstCard = 0;
 let secondCard = 0;
 let sum = 0;
 let hasBlackJack = false;
 let isAlive = true; // Lesson 8A
+
 
 /* FIRSTCARD FUNCTIONS. Tepper, 18NOV2022 */
 // firstCard random value generator
@@ -45,6 +48,7 @@ const getKort1 = () => {
     }
 }
 
+
 /* SECONDCARD FUNCTIONS. Tepper, 18NOV2022 */
 // secondCard random value generator
 const kort2 = () => {
@@ -68,11 +72,13 @@ const getKort2 = () => {
     }
 }
 
-// sum
+
+/* SUM FUNCTION. Tepper, 18NOV2022 */
 const cardSums = () => {
     let pairSum = firstCard + secondCard;
     sum = pairSum;
 }
+
 
 /* LESSON 3: if-else Conditionals
 
@@ -91,6 +97,8 @@ const validateSums = () => {
     }
 }
 
+
+/* CHAINED FUNCTIONS. Tepper, 18NOV2022 */
 const blackjackDealer = () => {
     
 
