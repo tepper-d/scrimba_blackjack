@@ -149,6 +149,48 @@ const newCard = () => {
 }
 
 /*************** EXTRA CHALLENGES ***************/
+/* LESSON 23: ARRAYS WITH MULTIPLE DATA TYPES
+    Create an array that uses the three primitive data types (num, string, boolean)
+Tepper, 21NOV2022 */
+/* let spno = ["Snooper Dooper", 11, true];
+
+console.log("Lesson 23 output:\n" + spno); */
+
+/* LESSON 21: INTRO TO ARRAYS
+        a. Create an array that lists something
+        b. Items in the array should be strings
+    LESSON 22: ARRAY INDEXES
+        Log array items to console individually.
+    LESSON 24: ADDING AND REMOVING ITEMS FROM ARRAYS
+        Push a new item into an existing array and log
+Tepper, 21NOV2022 */
+/* let boardgames = [
+    "Terraforming Mars",
+    "Dice Throne",
+    "Pandemic",
+    "Munchkin",
+    "King of Tokyo",
+    "Verdant",
+    "Calico"
+]
+console.log("Original array created in Lesson 21: " + boardgames.length + "\n" + boardgames);
+boardgames.push("Machina Arcana"); // 24a
+
+let writeBoardgames = "";
+let itemNum = 1;
+for (let i = 0; i < boardgames.length; i++) {
+    writeBoardgames += itemNum + ". " + boardgames[i] + "\n";
+    itemNum++;
+}
+console.log("After adding another board game, the array now has " + boardgames.length + " items. The final item is " + boardgames[boardgames.length - 1] + " and the updated list is now: \n" + writeBoardgames);
+
+let sellGames = boardgames.splice((Math.floor(Math.random() * 8)),1);
+console.log(sellGames + " was sold. Remaining board games are:\n" + boardgames); */
+
+//console.log("Lesson 21: Arrays (Output) \nSome of the boardgames I own: \n" + boardgames);
+//console.log("Lesson 22 Output: \n" + writeBoardgames);
+//console.log("Number of items in the boardgames array is " + boardgames.length + ".");
+
 /* LESSON 9. PRACTICE BOOLEAN CONDITIONS. Tepper, 21NOV2022 */
 /* console.log(4 === 3) // F
 console.log(5 > 2) // T
@@ -161,7 +203,6 @@ console.log(3 <= 2) // F */
 /* LESSON 5: IF/ELSE...IF/ELSE STATEMENT
     Check if the person is eligible for a birthday card from the King
 Tepper, 18NOV2022 */
-
 /* const centennial = () => {
     let recipientAge = parseInt(prompt("How old are you?"));
 
@@ -187,7 +228,6 @@ centennial(); */
     1. Check if person's age is 21 or over.
     2. Log message to console
 Tepper, 18NOV2022 */
-
 /* const bouncer = () => {
     let clubgoer = parseInt(prompt("How old are you?"));
 
