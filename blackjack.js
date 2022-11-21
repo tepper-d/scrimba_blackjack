@@ -7,6 +7,15 @@ Dominique Tepper, 18NOV2022
 
 "use strict";
 
+/* GLOBAL VARS. Tepper, 18NOV2022 */
+let firstCard = 0;
+let secondCard = 0;
+let thirdCard = 0;
+let sum = 0;
+let hasBlackJack = false;
+let isAlive = true; // Lesson 8a
+let message = ""; // 10a
+
 /* LESSON 2: Add vars firstCard, secondCard, sum
         a. firstCard and secondCard - set value to random number between 2-11
         b. sum = firstCard + secondCard
@@ -20,21 +29,28 @@ Dominique Tepper, 18NOV2022
         a. declare var message with value = ""
         b. reassign var message value to appropriate string
         c. log to console
+    LESSON 13. Make the Start buttonn work
+        a. Create a startGame() function
+        b. Move conditionals inside startGame() body
+    LESSON 14. Display the message
+        a. store the message-el <p> in var messageEl
+        b. display messageEl content using messageEl.textContent
+    LESSON 15. Display the sum
+        a. store sum-el <p> in var sumEl
+        b. display sumEl using sumEl.textContent
+    LESSON 16. Display the cards
+        a. store cards-el in var cardsEl
+        b. display cards values in cardsEl.textContent
+    LESSON 17. New card button
+        Create newCard() that logs "Drawing a new cad form the deck"
 Tepper, 18NOV2022*/
-
-
-/* GLOBAL VARS. Tepper, 18NOV2022 */
-let firstCard = 0;
-let secondCard = 0;
-let thirdCard = 0;
-let sum = 0;
-let hasBlackJack = false;
-let isAlive = true; // Lesson 8a
-let message = ""; // 10a
-
 
 /* TEST SPACE. Tepper, 21NOV2022 */
 const startGame = () => {
+    let messageEl = document.getElementById("message-el"); // 14a
+    let sumEl = document.getElementById("sum-el"); // 15a
+    let cardsEl = document.getElementById("cards-el"); // 16a
+
     let cardOne = Math.floor(Math.random() * 11) + 1;
     let cardTwo = Math.floor(Math.random() * 11) + 1;
     let cardTotal = cardOne + cardTwo;
@@ -55,8 +71,14 @@ const startGame = () => {
         inGame = false;
     }
     console.log(msg);
+    messageEl.textContent = msg; // 14b
+    sumEl.textContent = "Sum:" + cardTotal; // 15b
+    cardsEl.textContent = "Cards: " + cardOne + ", " + cardTwo; // 16b
 }
 
+const newCard = () => {
+    console.log("Drawing a new card from the deck.");
+}
 
 /* FIRSTCARD FUNCTIONS. Tepper, 18NOV2022 */
 // firstCard random value generator
