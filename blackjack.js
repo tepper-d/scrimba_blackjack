@@ -8,14 +8,18 @@ Dominique Tepper, 18NOV2022
 "use strict";
 
 /* LESSON 2: Add vars firstCard, secondCard, sum
-        A. firstCard and secondCard - set value to random number between 2-11
-        B. sum = firstCard + secondCard
+        a. firstCard and secondCard - set value to random number between 2-11
+        b. sum = firstCard + secondCard
     LESSON 7: var hasBlackJack
-        A. Create var hasBlackJack with value "false"
-        B. Flip value to "true" in appropriate code block
+        a. Create var hasBlackJack with value "false"
+        b. Flip value to "true" in appropriate code block
     LESSON 8: var isAlive
-        A. Create var isAlive with value "true"
-        B. Flip value to "false" in appropriate code block
+        a. Create var isAlive with value "true"
+        b. Flip value to "false" in appropriate code block
+    LESSON 10: Add var message
+        a. declare var message with value = ""
+        b. reassign var message value to appropriate string
+        c. log to console
 Tepper, 18NOV2022*/
 
 
@@ -25,7 +29,33 @@ let secondCard = 0;
 let thirdCard = 0;
 let sum = 0;
 let hasBlackJack = false;
-let isAlive = true; // Lesson 8A
+let isAlive = true; // Lesson 8a
+let message = ""; // 10a
+
+
+/* TEST SPACE. Tepper, 21NOV2022 */
+const startGame = () => {
+    let cardOne = Math.floor(Math.random() * 11) + 1;
+    let cardTwo = Math.floor(Math.random() * 11) + 1;
+    let cardTotal = cardOne + cardTwo;
+    let blackjack = false;
+    let inGame = true;
+    let msg = "";
+
+    console.log("btn click");
+    if (cardTotal <= 20) {
+        msg += "You have " + cardTotal + ". Do you want to draw a new card?";
+    }
+    else if (cardTotal === 21) {
+        msg += "You have blackjack!";
+        blackjack = true;
+    }
+    else {
+        msg += "Sorry, you have " + cardTotal + " . You're out.";
+        inGame = false;
+    }
+    console.log(msg);
+}
 
 
 /* FIRSTCARD FUNCTIONS. Tepper, 18NOV2022 */
