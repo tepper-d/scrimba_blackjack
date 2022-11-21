@@ -11,6 +11,8 @@ Dominique Tepper, 18NOV2022
         A. firstCard and secondCard - set value to random number between 2-11
         B. sum = firstCard + secondCard
     LESSON 7: var hasBlackJack
+        A. Create var hasBlackJack with value "false"
+        B. Flip value to "true" in appropriate code block
     LESSON 8: var isAlive
         A. Create var isAlive with value "true"
         B. Flip value to "false" in appropriate code block
@@ -20,6 +22,7 @@ Tepper, 18NOV2022*/
 /* GLOBAL VARS. Tepper, 18NOV2022 */
 let firstCard = 0;
 let secondCard = 0;
+let thirdCard = 0;
 let sum = 0;
 let hasBlackJack = false;
 let isAlive = true; // Lesson 8A
@@ -73,6 +76,27 @@ const getKort2 = () => {
 }
 
 
+/* THIRDCARD FUNCTIONS. TEPPER, 21NOV2022 */
+// secondCard random value generator
+const kort3 = () => {
+    let korten3 = Math.floor(Math.random() * 11) + 1;
+    thirdCard = korten3;
+}
+
+
+// secondCard draw prompt
+const getKort3 = () => {
+    let getThirdCard = "";
+
+    getThirdCard = prompt("Do you want to hit or stay? Hit = Y, Stay = N)", "Y");
+    
+    if (getThirdCard === "y" || getThirdCard === "Y") {
+        kort3();
+        sum += thirdCard;
+    }
+}
+
+
 /* SUM FUNCTION. Tepper, 18NOV2022 */
 const cardSums = () => {
     let pairSum = firstCard + secondCard;
@@ -90,24 +114,34 @@ const validateSums = () => {
     }
     else if (sum === 21) {
         console.log("House folds. You've got Blackjack!");
-        hasBlackJack = true; // Lesson 7
+        hasBlackJack = true; // 7B
     }
     else if(sum > 21) {
         console.log("House wins. Your cards are over 21.");
+        isAlive = false; // 8B
     }
 }
 
 
 /* CHAINED FUNCTIONS. Tepper, 18NOV2022 */
 const blackjackDealer = () => {
-    
+    kort1();
+    kort2(); 
 
 }
 
 
 /*************** EXTRA CHALLENGES ***************/
+/* LESSON 9. PRACTICE BOOLEAN CONDITIONS. Tepper, 21NOV2022 */
+/* console.log(4 === 3) // F
+console.log(5 > 2) // T
+console.log(12 > 12) // F
+console.log(3 < 0) // F
+console.log(3 >= 3) // T
+console.log(11 <= 11) // T
+console.log(3 <= 2) // F */
 
-/* Lesson 5: IF/ELSE...IF/ELSE STATEMENT
+/* LESSON 5: IF/ELSE...IF/ELSE STATEMENT
     Check if the person is eligible for a birthday card from the King
 Tepper, 18NOV2022 */
 
@@ -132,7 +166,7 @@ Tepper, 18NOV2022 */
 }
 centennial(); */
 
-/* Lesson 4: First if-else statements
+/* LESSON 4: First if-else statements
     1. Check if person's age is 21 or over.
     2. Log message to console
 Tepper, 18NOV2022 */
@@ -175,3 +209,4 @@ footer();
 
 How to play reference: https://www.youtube.com/watch?v=PljDuynF-j0
 */
+
