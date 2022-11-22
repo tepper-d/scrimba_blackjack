@@ -39,20 +39,44 @@ Build a Blackjack game, https://scrimba.com/playlist/p3py7U7
         create a new function called startGame() that calls renderGames()
 Dominique Tepper, 18NOV2022*/
 
-/* GLOBAL VARS. Tepper, 18NOV2022 */
-let messageEl = document.getElementById("message-el"); // 14a
-let sumEl = document.getElementById("sum-el"); // 15a
-let cardsEl = document.getElementById("cards-el"); // 16a
+/* PLAYER VARS. Tepper, 18NOV2022 */
+// DOM
+let playerMessageEl = document.getElementById("player_message-el"); // 14a
+let playerSumEl = document.getElementById("player_sum-el"); // 15a
+let playerCardsEl = document.getElementById("player_cards-el"); // 16a
+let playerWhoisEl = document.getElementById("player_whois-el");
+// VALUES
+let playerWhois = [];
+let playerCards = [];
+let playerSum = 0;
+let playerHasBlackjack = false;
+let playerIsAlive = false; // 8a
+let playerMsg = ""; //10a
 
-let firstCard = 0;
-let secondCard = 0;
-let thirdCard = 0;
-let sum = 0;
+
+/* PLAYER NAME & INITIAL CHIPS (WHOIS). Tepper, 22NOV2022 */
+const whoisPlayer = () => {
+    let initialChips = 0;
+    let playerName = prompt("Enter player name:");
+    playerWhois.push(playerName);
+
+    initialChips = parseInt(prompt("What is your initial bet?"));
+        while (isNaN(initialChips)) {
+            initialChips = parseInt(prompt("What is your initial bet?"));
+        }
+    playerWhois.push(initialChips);
+    console.log(playerWhois);
+
+    playerWhoisEl.textContent = playerWhois[0] + ": $" + playerWhois[1];
+}
+whoisPlayer();
+
+
+let dealerSum = 0;
 let hasBlackJack = false;
-let isAlive = true; // Lesson 8a
+let isAlive = false; // Lesson 8a
 let message = ""; // 10a
 let hasThirdCard = false;
-
 
 /* GAME RESET. Tepper, 21NOV2022 */
 const reset = () => {
@@ -66,9 +90,10 @@ const reset = () => {
     hasThirdCard = false;
 }
 
+/* PLAYER NAME AND INITIAL CHIPS. Tepper, 22NOV2022 */
+
 
 /* GENERATE CARDS. Tepper, 21NOV2022 */
-
 // first & secondCard random generator for START GAME
 const generateRandomCards = () => {
     console.log("Generating random first and second cards...");
@@ -80,7 +105,7 @@ const generateRandomCards = () => {
     secondCard = randomCardTwo;
     sum = firstCard + secondCard;
 
-    sumEl.textContent = "Sum:" + sum; // 15b
+    sumEl.textContent = "Sum: " + sum; // 15b
     cardsEl.textContent = "Cards: " + firstCard + ", " + secondCard; // 16b
 }
 
@@ -96,19 +121,19 @@ const generateThirdCard = () => {
 
     sum = sumThreeCards;
 
-    sumEl.textContent = "Sum:" + sum; // 15b
+    sumEl.textContent = "Sum: " + sum; // 15b
     cardsEl.textContent = "Cards: " + firstCard + ", " + secondCard + ", " + thirdCard; // 16b
 }
 
 
 /* CARD SUM CHECK AND DRAW PROMPTS. Tepper, 21NOV2022 */
 const checkCardSums = () => {
-    if ((isAlive === true) && (hasThirdCard === false)) {
-        if (sum === 21) { // player automatically wins
-            message = "You have blackjack!";
-            hasBlackJack = true;
-        }
-        else if (sum <= 20) {
+    if (sum===21) { // player automatically wins
+        message = "You have blackjack!";
+        hasBlackJack = true;
+    }
+    else if ((isAlive === true) && (hasThirdCard === false)) {
+        if (sum <= 20) {
             message = "You have " + sum + ". Do you want to draw a new card?";
         }
         else if (sum <= 20) {
@@ -116,15 +141,9 @@ const checkCardSums = () => {
             isAlive = false;
         }
     }
-    else {
-        if (sum === 21) {
-            message = "You have blackjack!";
-            hasBlackJack = true;
-        }
-        else {
-            message = "Sorry, you have " + sum + " . You're out.";
-            isAlive = false;
-        }
+    else if (sum != 21 && (isAlive === true) && (hasThirdCard === true)){
+        message = "Sorry, you have " + sum + " . You're out.";
+        isAlive = false;
     }
     console.log(message);
     messageEl.textContent = message; // 14b
@@ -141,8 +160,23 @@ const startGame = () => {
 
 // NEW CARD
 const newCard = () => {
-    generateThirdCard();
-    checkCardSums();
+    // stops player from drawing card #3 before cards 1&2 are generated. Tepper, 22NOV2022
+    if (firstCard === 0 && secondCard === 0) {
+        messageEl.textContent = "Click Start Game to draw your first two cards.";
+    }
+    // hasBlackJack = true won't draw a third card
+    else if (hasBlackJack === true) {
+        messageEl.textContent = "You already won. Can't draw more cards."
+    }
+    // generates third card only if hasThirdCard is false. Tepper, 22NOV2022
+    else if (hasThirdCard === false) {
+        generateThirdCard();
+        checkCardSums();
+    }
+    // if hasThirdCard is true, player can't draw more cards. Tepper, 22NOV2022
+    else {
+        messageEl.textContent = "Can't draw another card. " + message;
+    }
 }
 
 /*************** EXTRA CHALLENGES ***************/
@@ -287,6 +321,8 @@ footer();
         b. dealer < player <= 21 == player wins
         c. (player == dealer) <= 21 == 'push' (neither win or lose)
 
-How to play reference: https://www.youtube.com/watch?v=PljDuynF-j0
+How to play references: 
+    https://www.youtube.com/watch?v=PljDuynF-j0
+    https://www.youtube.com/watch?v=VB-6MvXvsKo
 */
 
