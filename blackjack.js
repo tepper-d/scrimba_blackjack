@@ -1,13 +1,10 @@
+"use strict";
 /*
 CIS 124: Introduction to JavaScript
 Module 6: Scrimba Exercises
 Build a Blackjack game, https://scrimba.com/playlist/p3py7U7
-Dominique Tepper, 18NOV2022
-*/
 
-"use strict";
-
-/* LESSON 2: Add vars firstCard, secondCard, sum
+    LESSON 2: Add vars firstCard, secondCard, sum
         a. firstCard and secondCard - set value to random number between 2-11
         b. sum = firstCard + secondCard
     LESSON 7: var hasBlackJack
@@ -40,7 +37,7 @@ Dominique Tepper, 18NOV2022
         c. call startGame()
     LESSON 19. Rename startGame()
         create a new function called startGame() that calls renderGames()
-Tepper, 18NOV2022*/
+Dominique Tepper, 18NOV2022*/
 
 /* GLOBAL VARS. Tepper, 18NOV2022 */
 let messageEl = document.getElementById("message-el"); // 14a
@@ -115,7 +112,7 @@ const checkCardSums = () => {
             message = "You have " + sum + ". Do you want to draw a new card?";
         }
         else if (sum <= 20) {
-            message = "Sorry, you have " + sum + " . You're out.";
+            message = "Sorry, you have " + sum + ". You're out.";
             isAlive = false;
         }
     }
@@ -163,31 +160,57 @@ console.log("Lesson 23 output:\n" + spno); */
         Log array items to console individually.
     LESSON 24: ADDING AND REMOVING ITEMS FROM ARRAYS
         Push a new item into an existing array and log
+    LESSON 28. WRITE YOUR FIRST LOOP
+        a. Create a for loop that counts from 10 to 100 in steps of 10
+        b. Log to console
+    LESSON 30. WRITE AN ARRAY-BASED FOR LOOP
+    LESSON 31. FOR LOOPS, ARRAYS, AND DOM
+        Render an array in an HTML element using a for loop and .textContent
 Tepper, 21NOV2022 */
-/* let boardgames = [
-    "Terraforming Mars",
-    "Dice Throne",
-    "Pandemic",
-    "Munchkin",
-    "King of Tokyo",
-    "Verdant",
-    "Calico"
-]
-console.log("Original array created in Lesson 21: " + boardgames.length + "\n" + boardgames);
-boardgames.push("Machina Arcana"); // 24a
-
+/* let boardgamesEl = document.getElementById("boardgames-el");
+let arrayPushEl = document.getElementById("array_push-el");
+let arraySpliceEl = document.getElementById("array_splice-el");
 let writeBoardgames = "";
 let itemNum = 1;
-for (let i = 0; i < boardgames.length; i++) {
-    writeBoardgames += itemNum + ". " + boardgames[i] + "\n";
-    itemNum++;
-}
-console.log("After adding another board game, the array now has " + boardgames.length + " items. The final item is " + boardgames[boardgames.length - 1] + " and the updated list is now: \n" + writeBoardgames);
 
+let boardgames = ["Terraforming Mars", "Dice Throne", "Pandemic", "Munchkin", "King of Tokyo","Verdant", "Calico"]
+
+    // creates a numbered list of array items to log to console
+    for (let i = 0; i < boardgames.length; i++) {
+        writeBoardgames += itemNum + ". " + boardgames[i] + " ";
+        itemNum++;
+    }
+    // counts from 10 to 100 in increments of 10
+    for (let i = 10; i < 101; i += 10) { // Lesson 28
+        console.log(i);
+    }
+
+    // logs array to console as a "numbered list". Tepper, 22NOV2022
+    console.log("Lesson 21: Arrays (Output) \nSome of the boardgames I own: \n" + boardgames);
+    // writes array items in an HTML body element. Tepper, 22NOV2022
+    boardgamesEl.textContent = "I have " + boardgames.length + " board games on my list and they are: " + writeBoardgames;
+
+// adds a new item to the array. Tepper, 22NOV2022
+boardgames.push("Machina Arcana"); // 24a
+let moreBoardgames = "";
+let itemNum2 = 1;
+    for (let i = 0; i < boardgames.length; i++) {
+        moreBoardgames += itemNum2 + ". " + boardgames[i] + "\n";
+        itemNum2++;
+    }
+    // logs updated array to console
+    console.log("After adding another board game, the array now has " + boardgames.length + " items. The final item is " + boardgames[boardgames.length - 1] + " and the updated list is now: \n" + writeBoardgames);
+    // writes updated array in HTML body element. Tepper, 22NOV2022
+    arrayPushEl.textContent = "After adding another board game, the array now has " + boardgames.length + " items. The final item is " + boardgames[boardgames.length - 1] + " and the updated list is now: \n" + moreBoardgames;
+
+// removes a random item from the array
 let sellGames = boardgames.splice((Math.floor(Math.random() * 8)),1);
-console.log(sellGames + " was sold. Remaining board games are:\n" + boardgames); */
 
-//console.log("Lesson 21: Arrays (Output) \nSome of the boardgames I own: \n" + boardgames);
+    // logs updated array items to console
+    console.log(sellGames + " was sold. Remaining board games are:\n" + boardgames);
+    // writes updated array in HTML body element. Tepper, 22NOV2022
+    arraySpliceEl.textContent = sellGames + " was sold. Remaining board games are:\n" + boardgames; */
+//console.log("Original array created in Lesson 21: " + boardgames.length + "\n" + boardgames);
 //console.log("Lesson 22 Output: \n" + writeBoardgames);
 //console.log("Number of items in the boardgames array is " + boardgames.length + ".");
 
