@@ -39,12 +39,12 @@ Build a Blackjack game, https://scrimba.com/playlist/p3py7U7
         create a new function called startGame() that calls renderGames()
 Dominique Tepper, 18NOV2022*/
 
-/* PLAYER VARS. Tepper, 18NOV2022 */
+/* PLAYER VARS. Tepper, 22NOV2022 */
 // DOM
+let playerWhoisEl = document.getElementById("player_whois-el");
 let playerMessageEl = document.getElementById("player_message-el"); // 14a
 let playerSumEl = document.getElementById("player_sum-el"); // 15a
 let playerCardsEl = document.getElementById("player_cards-el"); // 16a
-let playerWhoisEl = document.getElementById("player_whois-el");
 // VALUES
 let playerWhois = [];
 let playerCards = [];
@@ -54,6 +54,15 @@ let playerHasBlackjack = false;
 let playerIsAlive = false; // 8a
 let playerMsg = ""; //10a
 
+/* DEALER VARS. Tepper, 22NOV2022*/
+//DOM
+let dealerCardsEl = document.getElementById("dealer_cards-el");
+let dealerSumEl = document.getElementById("dealer_sum-el");
+// VALUES
+let dealerCards = [];
+let dealerSum = 0;
+let dealerHasBlackjack = false;
+let dealerIsAlive = false;
 
 /* PLAYER NAME & INITIAL CHIPS (WHOIS). Tepper, 22NOV2022 */
 const whoisPlayer = () => {
@@ -68,6 +77,7 @@ const whoisPlayer = () => {
     playerWhois.push(initialChips);
     console.log(playerWhois);
 
+    playerMessageEl.textContent = "Hello " + playerName + "! Do you want to play a round of Black Jack?"
     playerWhoisEl.textContent = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $";
 }
 whoisPlayer();
@@ -92,25 +102,42 @@ const getPlayerBet = () => {
     playerNewBank = playerBankroll - currentBet;
     playerWhois[1] = playerNewBank;
     playerWhoisEl.textContent = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $" + playerBet;
+    console.log(playerWhois);
 }
 
 /* GENERATE RANDOM CARDS. Tepper, 22NOV2022 */
-const getPlayerNum = () => {
-    let pNum = Math.floor(Math.random() * 13) + 1;
+const getPlayerCard = () => {
+    let playerRandomCard = Math.floor(Math.random() * 13) + 1;
 
-    if (pNum > 10 ) {
-        pNum = 10;
+    if (playerRandomCard > 10 ) {
+        playerRandomCard = 10;
     }
-    playerCards.push(pNum);
+    playerCards.push(playerRandomCard);
 }
 
-/* GAME RESET. Tepper, 21NOV2022 */
+const getDealerCard = () => {
+    let dealerRandomCard = Math.floor(Math.random() * 13) + 1;
+
+    if (dealerRandomCard > 10 ) {
+        dealerRandomCard = 10;
+    }
+    dealerCards.push(dealerRandomCard);
+}
+
+/* RESET FUNCTIONS. Tepper, 22NOV2022 */
 const resetGame = () => {
+    //PLAYER RESET
     playerCards = [];
     playerSum = 0;
     playerHasBlackjack = false;
     playerIsAlive = false; // 8a
     playerMsg = ""; //10a
+    
+    //DEALER RESET
+    dealerCards = [];
+    dealerSum = 0;
+    dealerHasBlackjack = false;
+    dealerIsAlive = false;
 }
 
 const newPlayer = () => {
@@ -121,67 +148,48 @@ const newPlayer = () => {
     playerHasBlackjack = false;
     playerIsAlive = false; // 8a
     playerMsg = ""; //10a
+
+    //DEALER RESET
+    dealerCards = [];
+    dealerSum = 0;
+    dealerHasBlackjack = false;
+    dealerIsAlive = false;
+
     whoisPlayer();
 }
 
-/* PLAYER NAME AND INITIAL CHIPS. Tepper, 22NOV2022 */
+/* BUTTON FUNCTIONS. Tepper, 22NOV2022 */
+const newGame = () => {
+    let playerCardsSum = 0;
+    let pcardsMsg = "";
+    let dealerCardsSum = 0;
+    let dcardsMsg = "";
 
+    getPlayerBet();
+    getPlayerCard();
+    getDealerCard();
+    getPlayerCard();
+    getDealerCard();
 
-/* GENERATE CARDS. Tepper, 21NOV2022 */
-// first & secondCard random generator for START GAME
-const generateRandomCards = () => {
-    console.log("Generating random first and second cards...");
+    for (let pIndex = 0; pIndex < playerCards.length; pIndex++) {
+        pcardsMsg += playerCards[pIndex] + " ";
+        playerCardsSum += playerCards[pIndex];
+    }
+    playerSum = playerCardsSum;
+    playerCardsEl.textContent = "Player Cards: " + pcardsMsg;
+    playerSumEl.textContent = "Player Sum: " + playerCardsSum;
 
-    let randomCardOne = Math.floor(Math.random() * 11) + 1;
-    let randomCardTwo = Math.floor(Math.random() * 11) + 1;
-
-    firstCard = randomCardOne;
-    secondCard = randomCardTwo;
-    sum = firstCard + secondCard;
-
-    sumEl.textContent = "Sum: " + sum; // 15b
-    cardsEl.textContent = "Cards: " + firstCard + ", " + secondCard; // 16b
-}
-
-// thirdCard random generator
-const generateThirdCard = () => {
-    console.log("Generating new card from deck...");
-
-    let randomCardThree = Math.floor(Math.random() * 11) + 2; // 18a
-    
-    thirdCard = randomCardThree;
-    hasThirdCard = true;
-    let sumThreeCards = sum + thirdCard;
-
-    sum = sumThreeCards;
-
-    sumEl.textContent = "Sum: " + sum; // 15b
-    cardsEl.textContent = "Cards: " + firstCard + ", " + secondCard + ", " + thirdCard; // 16b
+    for (let dIndex = 0; dIndex < dealerCards.length; dIndex++) {
+        dcardsMsg = dealerCards[dIndex] + " ";
+        dealerCardsSum += dealerCards[dIndex];
+    }
+    dealerSum = dealerCardsSum;
+    dealerCardsEl.textContent = "Dealer Cards: " + dealerCards[0] + " [hidden]";
+    dealerSumEl.textContent = "[hidden]";
 }
 
 
-/* CARD SUM CHECK AND DRAW PROMPTS. Tepper, 21NOV2022 */
-const checkCardSums = () => {
-    if (sum===21) { // player automatically wins
-        message = "You have blackjack!";
-        hasBlackJack = true;
-    }
-    else if ((isAlive === true) && (hasThirdCard === false)) {
-        if (sum <= 20) {
-            message = "You have " + sum + ". Do you want to draw a new card?";
-        }
-        else if (sum <= 20) {
-            message = "Sorry, you have " + sum + ". You're out.";
-            isAlive = false;
-        }
-    }
-    else if (sum != 21 && (isAlive === true) && (hasThirdCard === true)){
-        message = "Sorry, you have " + sum + " . You're out.";
-        isAlive = false;
-    }
-    console.log(message);
-    messageEl.textContent = message; // 14b
-}
+
 
 
 /* BUTTON FUNCTIONS. Tepper, 21NOV2022 */
