@@ -93,7 +93,11 @@ const getPlayerBet = () => {
     let currentBet = 0;
     let playerBankroll = parseInt(playerWhois[1]);
 
-    if (playerBankroll > 0) {
+    if (playerBankroll <= 0) {
+        playerHasBank = false;
+    }
+    else {
+        playerHasBank = true;
         currentBet = parseInt(prompt("How much will you bet for this game?"));
         
         do {
@@ -105,9 +109,6 @@ const getPlayerBet = () => {
             }
         } 
         while (isNaN(currentBet) || currentBet > playerBankroll);
-    }
-    else if (playerBankroll <= 0) {
-        playerHasBank = false;
     }
     
     playerMessageEl.textContent = playerMsg;
@@ -137,6 +138,19 @@ const getDealerCard = () => {
     dealerCards.push(dealerRandomCard);
 }
 
+/* DEALER REVEAL. Reveals dealer's hand/card values when player loses. Tepper, 22NOV2022 */
+const dealerReveal = () => {
+    let dealerCardsWrite = "";
+    let dealerSumWrite = "";
+
+    for (let di = 0; di < dealerCards.length; di++) {
+        dealerCardsWrite += dealerCards[di] + " ";
+    }
+
+    dealerCardsEl.textContent = "Dealer Cards: " + dealerCardsWrite;
+    dealerSumEl.textContent = "Dealer Sum: " + dealerSum;
+}
+
 /* CHECK SUMS. Checks existing card sums and prompts user for next action.
 Tepper, 22NOV2022 */
 
@@ -145,6 +159,7 @@ const checkPlayerSum = () => {
         playerHasBlackjack = true;
         playerIsAlive = false;
         playerMsg = "Congratulations! You got black jack!";
+        dealerReveal();
     }
     else if (playerIsAlive === true) {
         if (playerSum <= 20) {
@@ -154,21 +169,21 @@ const checkPlayerSum = () => {
         else if (playerSum > 21) {
             playerIsAlive = false;
             playerMsg = "Sorry, you're out of the game. House wins this round.";
+            dealerReveal();
         }
     }
     else if (playerIsAlive === false) {
         if (((playerSum <= 20) > (dealerSum <= 20)) < 21) {
             playerMsg = "Well done! You won this round!";
+            dealerReveal();
         }
         else if (((playerSum <= 20) < (dealerSum <= 20)) < 21) {
             playerMsg = "Sorry, the House wins this round.";
+            dealerReveal();
         }
     }
     playerMessageEl.textContent = playerMsg;
 }
-
-
-
 
 /* BUTTON FUNCTIONS. Tepper, 22NOV2022 */
 
@@ -177,18 +192,32 @@ const checkPlayerSum = () => {
         b. playerHasBlackjack = false
     New card added to playerCards array.
 Tepper, 22NOV2022 */
-const hit = () => {
-    let playerHitMsg = "";
+const newCard = () => {
+    console.log("hit");
+    let playerCardsSum = 0;
+    let pcardsMsg = "";
 
     if (playerIsAlive === true) {
         getPlayerCard();
+
+        for (let pIndex = 0; pIndex < playerCards.length; pIndex++) {
+            pcardsMsg += playerCards[pIndex] + " ";
+            playerCardsSum += playerCards[pIndex];
+        }
+        playerSum = playerCardsSum;
+        playerCardsEl.textContent = "Player Cards: " + pcardsMsg;
+        playerSumEl.textContent = "Player Sum: " + playerCardsSum;
+
         checkPlayerSum();
     }
     else if (playerHasBlackjack === true) {
         playerMsg = "You have black jack. Can't draw more cards.";
     }
+    else if (playerCards.length === 0) {
+        alert("You must start a new game first.");
+    }
     else if (playerIsAlive === false) {
-        playerHitMsg = "You're out for this round. Start a new game instead.";
+        alert("You're out for this round. Start a new game instead.");
     }
 }
 
@@ -207,12 +236,11 @@ const newGame = () => {
 
     // get bet
     getPlayerBet();
-    
-    if (playerHasBank = false) {
-        playerMsg = "Insufficient bankroll amount. Click 'Switch Player' to load new amount."
-        playerMessageEl = playerMsg;
+
+    if (playerHasBank === false) {
+        alert("Insufficient bankroll amount. Click 'Switch Player' to load new amount.");
     }
-    else {
+    else if (playerHasBank === true) {
         // reset values
         resetGame();
 
