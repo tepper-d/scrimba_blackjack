@@ -37,7 +37,7 @@ Build a Blackjack game, https://scrimba.com/playlist/p3py7U7
         c. call startGame()
     LESSON 19. Rename startGame()
         create a new function called startGame() that calls renderGames()
-Dominique Tepper, 18NOV2022*/
+Dominique Tepper, 18NOV2022 */
 
 /* PLAYER VARS. Tepper, 22NOV2022 */
 // DOM
@@ -50,6 +50,7 @@ let playerWhois = [];
 let playerCards = [];
 let playerBet = 0;
 let playerSum = 0;
+let playerEarns = 0;
 let playerHasBlackjack = false;
 let playerIsAlive = false; // 8a
 let playerHasBank = false;
@@ -64,6 +65,7 @@ let dealerCards = [];
 let dealerSum = 0;
 let dealerHasBlackjack = false;
 let dealerIsAlive = false;
+
 
 /* PLAYER NAME & INITIAL BANKROLL (WHOIS). Tepper, 22NOV2022 */
 const whoisPlayer = () => {
@@ -84,7 +86,7 @@ const whoisPlayer = () => {
 }
 whoisPlayer();
 
-// BET MANIPULATION. Tepper, 22NOV2022
+
 /* GET PLAYER BET. 
     Prompts the player to enter an amount that is equal to or less than their current bank roll amount. Paired with newGame(). 
 Tepper, 22NOV2022 */
@@ -119,6 +121,13 @@ const getPlayerBet = () => {
     console.log(playerWhois);
 }
 
+/* CALCULATE WINNINGS. House pays out 3:2 if player wins. Tepper, 22NOV2022 */
+const calculateWinnings = () => {
+    let payout = (playerBet * 2) + (playerBet / 2);
+    playerWhois[1] += payout;
+    playerWhoisEl.textContent = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $" + playerBet;
+}
+
 /* GENERATE RANDOM CARDS. Tepper, 22NOV2022 */
 const getPlayerCard = () => {
     let playerRandomCard = Math.floor(Math.random() * 13) + 1;
@@ -141,7 +150,6 @@ const getDealerCard = () => {
 /* DEALER REVEAL. Reveals dealer's hand/card values when player loses. Tepper, 22NOV2022 */
 const dealerReveal = () => {
     let dealerCardsWrite = "";
-    let dealerSumWrite = "";
 
     for (let di = 0; di < dealerCards.length; di++) {
         dealerCardsWrite += dealerCards[di] + " ";
@@ -159,6 +167,7 @@ const checkPlayerSum = () => {
         playerHasBlackjack = true;
         playerIsAlive = false;
         playerMsg = "Congratulations! You got black jack!";
+        calculateWinnings();
         dealerReveal();
     }
     else if (playerIsAlive === true) {
@@ -175,6 +184,7 @@ const checkPlayerSum = () => {
     else if (playerIsAlive === false) {
         if (((playerSum <= 20) > (dealerSum <= 20)) < 21) {
             playerMsg = "Well done! You won this round!";
+            calculateWinnings();
             dealerReveal();
         }
         else if (((playerSum <= 20) < (dealerSum <= 20)) < 21) {
@@ -299,13 +309,6 @@ const switchPlayer = () => {
     whoisPlayer();
 }
 
-/* EMPTY ARRAY. Removes array items from previous game. Tepper, 22NOV2022 */
-const clearCards = () => {
-    while ((playerCards.length > 0) && (dealerCards.length > 0)) {
-        playerCards.splice(0);
-        dealerCards.splice(0);
-    }
-}
 
 /* RESET GAME. Resets some global vars to their default values. 
     To be used when starting a new black jack round while retaining the same player name and bank roll amount.
