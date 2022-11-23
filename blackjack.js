@@ -48,6 +48,7 @@ let playerWhoisEl = document.getElementById("player_whois-el");
 // VALUES
 let playerWhois = [];
 let playerCards = [];
+let playerBet = 0;
 let playerSum = 0;
 let playerHasBlackjack = false;
 let playerIsAlive = false; // 8a
@@ -60,34 +61,67 @@ const whoisPlayer = () => {
     let playerName = prompt("Enter player name:");
     playerWhois.push(playerName);
 
-    initialChips = parseInt(prompt("What is your initial bet?"));
+    initialChips = parseInt(prompt("How much are you bankrolling?"));
         while (isNaN(initialChips)) {
-            initialChips = parseInt(prompt("What is your initial bet?"));
+            initialChips = parseInt(prompt("How much are you bankrolling?"));
         }
     playerWhois.push(initialChips);
     console.log(playerWhois);
 
-    playerWhoisEl.textContent = playerWhois[0] + ": $" + playerWhois[1];
+    playerWhoisEl.textContent = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $";
 }
 whoisPlayer();
 
+/* PLAYER BET. Tepper, 22NOV2022 */
+const getPlayerBet = () => {
+    let playerNewBank = 0;
+    let playerBankroll = parseInt(playerWhois[1]);
 
-let dealerSum = 0;
-let hasBlackJack = false;
-let isAlive = false; // Lesson 8a
-let message = ""; // 10a
-let hasThirdCard = false;
+    let currentBet = parseInt(prompt("How much will you bet for this game?"));
+    do {
+        if (isNaN(currentBet)) {
+            currentBet = parseInt(prompt("Please enter a valid amount to bet."));
+        }
+        else if (currentBet > playerBankroll) {
+            currentBet = parseInt(prompt("You bet amount must be less than or equal to your current bank roll."));
+        }
+    } 
+    while (isNaN(currentBet) || currentBet > playerBankroll);
+
+    playerBet = currentBet;
+    playerNewBank = playerBankroll - currentBet;
+    playerWhois[1] = playerNewBank;
+    playerWhoisEl.textContent = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $" + playerBet;
+}
+
+/* GENERATE RANDOM CARDS. Tepper, 22NOV2022 */
+const getPlayerNum = () => {
+    let pNum = Math.floor(Math.random() * 13) + 1;
+
+    if (pNum > 10 ) {
+        pNum = 10;
+    }
+    playerCards.push(pNum);
+}
 
 /* GAME RESET. Tepper, 21NOV2022 */
-const reset = () => {
-    firstCard = 0;
-    secondCard = 0;
-    thirdCard = 0;
-    sum = 0;
-    hasBlackJack = false;
-    isAlive = true;
-    message = "";
-    hasThirdCard = false;
+const resetGame = () => {
+    playerCards = [];
+    playerSum = 0;
+    playerHasBlackjack = false;
+    playerIsAlive = false; // 8a
+    playerMsg = ""; //10a
+}
+
+const newPlayer = () => {
+    playerWhois = [];
+    playerCards = [];
+    playerBet = 0;
+    playerSum = 0;
+    playerHasBlackjack = false;
+    playerIsAlive = false; // 8a
+    playerMsg = ""; //10a
+    whoisPlayer();
 }
 
 /* PLAYER NAME AND INITIAL CHIPS. Tepper, 22NOV2022 */
