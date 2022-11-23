@@ -52,6 +52,7 @@ let playerBet = 0;
 let playerSum = 0;
 let playerHasBlackjack = false;
 let playerIsAlive = false; // 8a
+let playerHasBank = false;
 let playerMsg = ""; //10a
 
 /* DEALER VARS. Tepper, 22NOV2022*/
@@ -64,7 +65,7 @@ let dealerSum = 0;
 let dealerHasBlackjack = false;
 let dealerIsAlive = false;
 
-/* PLAYER NAME & INITIAL CHIPS (WHOIS). Tepper, 22NOV2022 */
+/* PLAYER NAME & INITIAL BANKROLL (WHOIS). Tepper, 22NOV2022 */
 const whoisPlayer = () => {
     let initialChips = 0;
     let playerName = prompt("Enter player name:");
@@ -75,6 +76,7 @@ const whoisPlayer = () => {
             initialChips = parseInt(prompt("How much are you bankrolling?"));
         }
     playerWhois.push(initialChips);
+    playerHasBank = true;
     console.log(playerWhois);
 
     playerMessageEl.textContent = "Hello " + playerName + "! Do you want to play a round of Black Jack?"
@@ -88,19 +90,27 @@ whoisPlayer();
 Tepper, 22NOV2022 */
 const getPlayerBet = () => {
     let playerNewBank = 0;
+    let currentBet = 0;
     let playerBankroll = parseInt(playerWhois[1]);
 
-    let currentBet = parseInt(prompt("How much will you bet for this game?"));
-    do {
-        if (isNaN(currentBet)) {
-            currentBet = parseInt(prompt("Please enter a valid amount to bet."));
-        }
-        else if (currentBet > playerBankroll) {
-            currentBet = parseInt(prompt("You bet amount must be less than or equal to your current bank roll."));
-        }
-    } 
-    while (isNaN(currentBet) || currentBet > playerBankroll);
-
+    if (playerBankroll > 0) {
+        currentBet = parseInt(prompt("How much will you bet for this game?"));
+        
+        do {
+            if (isNaN(currentBet)) {
+                currentBet = parseInt(prompt("Please enter a valid amount to bet."));
+            }
+            else if (currentBet > playerBankroll) {
+                currentBet = parseInt(prompt("You bet amount must be less than or equal to your current bank roll."));
+            }
+        } 
+        while (isNaN(currentBet) || currentBet > playerBankroll);
+    }
+    else if (playerBankroll <= 0) {
+        playerHasBank = false;
+    }
+    
+    playerMessageEl.textContent = playerMsg;
     playerBet = currentBet;
     playerNewBank = playerBankroll - currentBet;
     playerWhois[1] = playerNewBank;
@@ -136,7 +146,7 @@ const checkPlayerSum = () => {
         playerIsAlive = false;
         playerMsg = "Congratulations! You got black jack!";
     }
-    else if (playerIsAlive = true) {
+    else if (playerIsAlive === true) {
         if (playerSum <= 20) {
             playerIsAlive = true;
             playerMsg = "You have " + playerSum + ". Do you want to draw a new card?";
@@ -146,7 +156,7 @@ const checkPlayerSum = () => {
             playerMsg = "Sorry, you're out of the game. House wins this round.";
         }
     }
-    else if (playerIsAlive = false) {
+    else if (playerIsAlive === false) {
         if (((playerSum <= 20) > (dealerSum <= 20)) < 21) {
             playerMsg = "Well done! You won this round!";
         }
@@ -157,9 +167,32 @@ const checkPlayerSum = () => {
     playerMessageEl.textContent = playerMsg;
 }
 
+
+
+
 /* BUTTON FUNCTIONS. Tepper, 22NOV2022 */
 
-/* NEW GAME. Clicking on the New Game button will 
+/* HIT. Player draws a new card if 
+        a. playerIsAlive = true
+        b. playerHasBlackjack = false
+    New card added to playerCards array.
+Tepper, 22NOV2022 */
+const hit = () => {
+    let playerHitMsg = "";
+
+    if (playerIsAlive === true) {
+        getPlayerCard();
+        checkPlayerSum();
+    }
+    else if (playerHasBlackjack === true) {
+        playerMsg = "You have black jack. Can't draw more cards.";
+    }
+    else if (playerIsAlive === false) {
+        playerHitMsg = "You're out for this round. Start a new game instead.";
+    }
+}
+
+/* NEW GAME. This function will 
         1. Prompt the user to place a bet for the current game through getPlayerBet()
         2. Generate random numbers for both player and dealer
         3. Display player card values and sum
@@ -172,38 +205,48 @@ const newGame = () => {
     let dealerCardsSum = 0;
     let dcardsMsg = "";
 
-    resetGame();
     // get bet
     getPlayerBet();
-
-    // generate 2 cards
-    getPlayerCard();
-    getDealerCard();
-    getPlayerCard();
-    getDealerCard();
-
-    playerIsAlive = true;
-    dealerIsAlive = true;
-
-    for (let pIndex = 0; pIndex < playerCards.length; pIndex++) {
-        pcardsMsg += playerCards[pIndex] + " ";
-        playerCardsSum += playerCards[pIndex];
+    
+    if (playerHasBank = false) {
+        playerMsg = "Insufficient bankroll amount. Click 'Switch Player' to load new amount."
+        playerMessageEl = playerMsg;
     }
-    playerSum = playerCardsSum;
-    playerCardsEl.textContent = "Player Cards: " + pcardsMsg;
-    playerSumEl.textContent = "Player Sum: " + playerCardsSum;
+    else {
+        // reset values
+        resetGame();
 
-    for (let dIndex = 0; dIndex < dealerCards.length; dIndex++) {
-        dcardsMsg = dealerCards[dIndex] + " ";
-        dealerCardsSum += dealerCards[dIndex];
+        // generate 2 cards
+        getPlayerCard();
+        getDealerCard();
+        getPlayerCard();
+        getDealerCard();
+
+        // player and dealer are still in the game
+        playerIsAlive = true;
+        dealerIsAlive = true;
+
+        for (let pIndex = 0; pIndex < playerCards.length; pIndex++) {
+            pcardsMsg += playerCards[pIndex] + " ";
+            playerCardsSum += playerCards[pIndex];
+        }
+        playerSum = playerCardsSum;
+        playerCardsEl.textContent = "Player Cards: " + pcardsMsg;
+        playerSumEl.textContent = "Player Sum: " + playerCardsSum;
+
+        for (let dIndex = 0; dIndex < dealerCards.length; dIndex++) {
+            dcardsMsg = dealerCards[dIndex] + " ";
+            dealerCardsSum += dealerCards[dIndex];
+        }
+        dealerSum = dealerCardsSum;
+        dealerCardsEl.textContent = "Dealer Cards: " + dealerCards[0] + " [hidden]";
+        dealerSumEl.textContent = "Dealer Sum: [hidden]";
+
+        console.log(dealerCards + " " + dealerSum);
+        checkPlayerSum();
     }
-    dealerSum = dealerCardsSum;
-    dealerCardsEl.textContent = "Dealer Cards: " + dealerCards[0] + " [hidden]";
-    dealerSumEl.textContent = "Dealer Sum: [hidden]";
-
-    console.log(dealerCards + " " + dealerSum);
-    checkPlayerSum();
 }
+
 
 /* SWITCH PLAYER. This function resets global vars and allows the player to
         1. Use a different player name
