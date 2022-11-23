@@ -82,7 +82,10 @@ const whoisPlayer = () => {
 }
 whoisPlayer();
 
-/* PLAYER BET. Tepper, 22NOV2022 */
+// BET MANIPULATION. Tepper, 22NOV2022
+/* GET PLAYER BET. 
+    Prompts the player to enter an amount that is equal to or less than their current bank roll amount. Paired with newGame(). 
+Tepper, 22NOV2022 */
 const getPlayerBet = () => {
     let playerNewBank = 0;
     let playerBankroll = parseInt(playerWhois[1]);
@@ -124,52 +127,63 @@ const getDealerCard = () => {
     dealerCards.push(dealerRandomCard);
 }
 
-/* RESET FUNCTIONS. Tepper, 22NOV2022 */
-const resetGame = () => {
-    //PLAYER RESET
-    playerCards = [];
-    playerSum = 0;
-    playerHasBlackjack = false;
-    playerIsAlive = false; // 8a
-    playerMsg = ""; //10a
-    
-    //DEALER RESET
-    dealerCards = [];
-    dealerSum = 0;
-    dealerHasBlackjack = false;
-    dealerIsAlive = false;
-}
+/* CHECK SUMS. Checks existing card sums and prompts user for next action.
+Tepper, 22NOV2022 */
 
-const newPlayer = () => {
-    playerWhois = [];
-    playerCards = [];
-    playerBet = 0;
-    playerSum = 0;
-    playerHasBlackjack = false;
-    playerIsAlive = false; // 8a
-    playerMsg = ""; //10a
-
-    //DEALER RESET
-    dealerCards = [];
-    dealerSum = 0;
-    dealerHasBlackjack = false;
-    dealerIsAlive = false;
-
-    whoisPlayer();
+const checkPlayerSum = () => {
+    if (playerSum === 21) {
+        playerHasBlackjack = true;
+        playerIsAlive = false;
+        playerMsg = "Congratulations! You got black jack!";
+    }
+    else if (playerIsAlive = true) {
+        if (playerSum <= 20) {
+            playerIsAlive = true;
+            playerMsg = "You have " + playerSum + ". Do you want to draw a new card?";
+        }
+        else if (playerSum > 21) {
+            playerIsAlive = false;
+            playerMsg = "Sorry, you're out of the game. House wins this round.";
+        }
+    }
+    else if (playerIsAlive = false) {
+        if (((playerSum <= 20) > (dealerSum <= 20)) < 21) {
+            playerMsg = "Well done! You won this round!";
+        }
+        else if (((playerSum <= 20) < (dealerSum <= 20)) < 21) {
+            playerMsg = "Sorry, the House wins this round.";
+        }
+    }
+    playerMessageEl.textContent = playerMsg;
 }
 
 /* BUTTON FUNCTIONS. Tepper, 22NOV2022 */
+
+/* NEW GAME. Clicking on the New Game button will 
+        1. Prompt the user to place a bet for the current game through getPlayerBet()
+        2. Generate random numbers for both player and dealer
+        3. Display player card values and sum
+        4. Display the first dealer card and keep 2nd value & cards sum hidden
+    <!> This function does not allow the player to add more to their current bank roll.
+Tepper, 22NOV2022 */
 const newGame = () => {
     let playerCardsSum = 0;
     let pcardsMsg = "";
     let dealerCardsSum = 0;
     let dcardsMsg = "";
 
+    resetGame();
+    // get bet
     getPlayerBet();
+
+    // generate 2 cards
     getPlayerCard();
     getDealerCard();
     getPlayerCard();
     getDealerCard();
+
+    playerIsAlive = true;
+    dealerIsAlive = true;
 
     for (let pIndex = 0; pIndex < playerCards.length; pIndex++) {
         pcardsMsg += playerCards[pIndex] + " ";
@@ -185,41 +199,61 @@ const newGame = () => {
     }
     dealerSum = dealerCardsSum;
     dealerCardsEl.textContent = "Dealer Cards: " + dealerCards[0] + " [hidden]";
-    dealerSumEl.textContent = "[hidden]";
+    dealerSumEl.textContent = "Dealer Sum: [hidden]";
+
+    console.log(dealerCards + " " + dealerSum);
+    checkPlayerSum();
 }
 
+/* SWITCH PLAYER. This function resets global vars and allows the player to
+        1. Use a different player name
+        2. Enter a new bank roll value
+Tepper, 22NOV2022 */
+const switchPlayer = () => {
+    playerWhois = [];
+    playerCards = [];
+    playerBet = 0;
+    playerSum = 0;
+    playerHasBlackjack = false;
+    playerIsAlive = false; // 8a
+    playerMsg = ""; //10a
 
+    //DEALER RESET
+    dealerCards = [];
+    dealerSum = 0;
+    dealerHasBlackjack = false;
+    dealerIsAlive = false;
 
-
-
-/* BUTTON FUNCTIONS. Tepper, 21NOV2022 */
-// START GAME
-const startGame = () => {
-    reset();
-    generateRandomCards();
-    checkCardSums();
+    // refresh player info
+    whoisPlayer();
 }
 
-// NEW CARD
-const newCard = () => {
-    // stops player from drawing card #3 before cards 1&2 are generated. Tepper, 22NOV2022
-    if (firstCard === 0 && secondCard === 0) {
-        messageEl.textContent = "Click Start Game to draw your first two cards.";
-    }
-    // hasBlackJack = true won't draw a third card
-    else if (hasBlackJack === true) {
-        messageEl.textContent = "You already won. Can't draw more cards."
-    }
-    // generates third card only if hasThirdCard is false. Tepper, 22NOV2022
-    else if (hasThirdCard === false) {
-        generateThirdCard();
-        checkCardSums();
-    }
-    // if hasThirdCard is true, player can't draw more cards. Tepper, 22NOV2022
-    else {
-        messageEl.textContent = "Can't draw another card. " + message;
+/* EMPTY ARRAY. Removes array items from previous game. Tepper, 22NOV2022 */
+const clearCards = () => {
+    while ((playerCards.length > 0) && (dealerCards.length > 0)) {
+        playerCards.splice(0);
+        dealerCards.splice(0);
     }
 }
+
+/* RESET GAME. Resets some global vars to their default values. 
+    To be used when starting a new black jack round while retaining the same player name and bank roll amount.
+Tepper, 22NOV2022 */
+const resetGame = () => {
+    //PLAYER RESET
+    playerCards = [];
+    playerSum = 0;
+    playerHasBlackjack = false;
+    playerIsAlive = false; // 8a
+    playerMsg = ""; //10a
+    
+    //DEALER RESET
+    dealerCards = [];
+    dealerSum = 0;
+    dealerHasBlackjack = false;
+    dealerIsAlive = false;
+}
+
 
 /*************** EXTRA CHALLENGES ***************/
 /* LESSON 23: ARRAYS WITH MULTIPLE DATA TYPES
