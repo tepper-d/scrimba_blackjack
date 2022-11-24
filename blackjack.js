@@ -16,6 +16,7 @@ let playerCards = [];
 let playerBet = 0;
 let playerSum = 0;
 let playerEarns = 0;
+let playerHasWhois = false;
 let playerHasBlackjack = false;
 let playerIsAlive = false; // 8a
 let playerHasBank = false;
@@ -40,7 +41,7 @@ let itsAPush = false;
 
 /* PLAYER NAME & INITIAL BANKROLL (WHOIS). Tepper, 22NOV2022 */
 const whoisPlayer = () => {
-    let whois = "";
+    let whoisText = "";
     let initialChips = 0;
     let playerName = prompt("Enter player name:");
 
@@ -63,9 +64,10 @@ const whoisPlayer = () => {
         } while (isNaN(initialChips) || initialChips > 2500);
     playerWhois.push(initialChips);
     playerHasBank = true;
+    playerHasWhois = true;
     console.log(playerWhois);
 
-    whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + " || Winnings: $";
+    whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + " || Winnings: $";
 
     playerMessageEl.textContent = "Hello " + playerName + "! Do you want to play a round of Black Jack?";
     playerWhoisEl.textContent = whois;
@@ -89,14 +91,14 @@ const getPlayerBet = () => {
         currentBet = parseInt(prompt("How much will you bet for this game?"));
         
         do {
-            if (isNaN(currentBet)) {
+            if (isNaN(currentBet) || currentBet < 1) {
                 currentBet = parseInt(prompt("Please enter a valid amount to bet."));
             }
             else if (currentBet > playerBankroll) {
                 currentBet = parseInt(prompt("You bet amount must be less than or equal to your current bank roll."));
             }
         } 
-        while (isNaN(currentBet) || currentBet > playerBankroll);
+        while (isNaN(currentBet) || currentBet < 1 || currentBet > playerBankroll);
     }
     
 
@@ -403,7 +405,7 @@ const getWinner = () => {
         b. playerHasBlackjack = false
     New card added to playerCards array.
 Tepper, 22NOV2022 */
-const newCard = () => {
+const hit = () => {
     console.log("hit");
 
     if (playerIsAlive === true) {
@@ -473,6 +475,9 @@ const newGame = () => {
     if (playerHasBank === false) {
         alert("Insufficient bankroll amount. Click 'Switch Player' to load new amount.");
     }
+    else if (playerHasWhois === false) {
+        alert("You need a player profile to play in this table.");
+    }
     else if (playerHasBank === true) {
         // reset values
         resetGame();
@@ -531,6 +536,7 @@ const resetGame = () => {
     playerBet = 0;
     playerSum = 0;
     playerEarns = 0;
+    playerHasWhois = false;
     playerHasBlackjack = false;
     playerIsAlive = false;
     playerStays = false;
