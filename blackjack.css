@@ -7,7 +7,7 @@ Dominique Tepper, 18NOV2022
 
 /* BODY. Tepper, 18NOV2022 */
 body {
-    font-family: 'Questrial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #FFEFD3;
     margin: 0 auto;
     width: 500px;
@@ -31,7 +31,7 @@ h3 {
 
 /* BUTTON. Tepper, 21NOV2022*/
 button {
-    font-family: 'Questrial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #4A6D7C;
     color: #C57B57;
     margin: 4px;
@@ -41,6 +41,13 @@ button {
     cursor: pointer;
     border-radius: 20px;
     width: 150px;
+}
+
+#newplayer {
+    width: 300px;
+    background: #C57B57;
+    color: #2E4057;
+    margin: 2px;
 }
 
 /* BODY ELEMENTS. Tepper, 22NOV2022 */

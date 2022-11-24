@@ -30,7 +30,8 @@
     <!-- Main. Dominique Tepper, 18NOV2022 ------------------>
     <main>
         <div> <!-- LESSON 12. Add basic styling -->
-            <h3 id="player_whois-el"></h3>
+            <button onclick="whoisPlayer()" id="newplayer">Create New Player Profile</button>
+            <h3 id="player_whois-el">Player: || Bet: $ </h3>
             <p id="player_message-el"></p>
             <p id="player_cards-el">Player Cards: </p> <!-- LESSON 16. display the cards -->
             <p id="player_sum-el">Player Sum:</p> <!-- LESSON 15. give sum <p> the id sum-el -->
@@ -49,7 +50,7 @@
             </p> 
             <p>
                 <button onclick="newGame()">New Game</button> <!-- L13. Start Button -->
-                <button onclick="switchPlayer()">Switch Player</button>
+                <button onclick="addMoney()">Add money</button>
             </p>
             <p></p>
         </div>
