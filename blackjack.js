@@ -274,12 +274,17 @@ const blackjack = () => {
         let newGameAsk = "";
 
         payout = playerBet + (playerBet / 2);
+        console.log("blackpayout: " + payout);
         playerNewBank = playerCurrentBank + payout;
+        console.log("blacknewbank: " + playerNewBank);
 
         playerWhois.pop();
+        console.log("blackpop: " + playerWhois);
         playerWhois.push(playerNewBank);
+        console.log("blackpush: " + playerWhois);
 
         let whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + payout;
+        console.log("blackwhois: " + whois);
         playerWhoisEl.textContent = whois;
 
         newGameAsk = prompt("Congratulations, you got blackjack! Do you want to start a new game? Y/N", "y");
@@ -300,14 +305,14 @@ const playerWinsRound = () => {
     playerMsg = "You win! " + payout + " goes back to your bank roll. Start new game?";
 
     playerNewBank = playerCurrentBank + payout;
-    console.log(playerNewBank);
+    console.log("playernewbank: " + playerNewBank);
     playerWhois.pop();
-    console.log(playerWhois);
+    console.log("playerwhois: " + playerWhois);
     playerWhois.push(playerNewBank);
-    console.log(playerWhois);
+    console.log("playerpush: " + playerWhois);
 
     let whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + payout;
-    console.log("player" + whois);
+    console.log("playerwhois" + whois);
 
     playerWhoisEl.textContent = whois;
     playerMessageEl.textContent = playerMsg;
@@ -323,14 +328,14 @@ const dealerWinsRound = () => {
     payout = 0;
 
     playerNewBank = playerCurrentBank + payout;
-    console.log("dealer: " + playerNewBank);
+    console.log("dealernew bank: " + playerNewBank);
     playerWhois.pop();
-    console.log("dealer: " + playerWhois);
+    console.log("dealerpop: " + playerWhois);
     playerWhois.push(playerNewBank);
-    console.log("dealer: " + playerWhois);
+    console.log("dealerpush: " + playerWhois);
 
     let whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + payout;
-    console.log("dealer" + whois);
+    console.log("dealerwhois" + whois);
 
     playerWhoisEl.textContent = whois;
     playerMessageEl.textContent = playerMsg;
@@ -343,14 +348,18 @@ const deadlock = () => {
     let playerCurrentBank = playerWhois[1];
 
     payout = bet;
+    console.log("deadlockpayout" + payout);
     playerMsg = "It's a push. You get original bet back.";
 
     playerNewBank = playerCurrentBank + payout;
+    console.log("deadlocknewbank" + playerNewBank);
     playerWhois.pop();
+    console.log("deadlockpop" + playerWhois);
     playerWhois.push(playerNewBank);
+    console.log("deadlockpush" + playerWhois);
 
     let whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + payout;
-    console.log("push" + whois);
+    console.log("deadlockwhois" + whois);
 
     playerWhoisEl.textContent = whois;
     playerMessageEl.textContent = playerMsg;
