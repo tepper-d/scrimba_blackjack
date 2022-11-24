@@ -46,8 +46,16 @@ const whoisPlayer = () => {
     playerWhois.push(playerName);
 
     initialChips = parseInt(prompt("How much are you bankrolling?"));
-        while (isNaN(initialChips)) {
-            initialChips = parseInt(prompt("How much are you bankrolling?"));
+        while (isNaN(initialChips) || initialChips > 2500) {
+            if (isNan(initialChips)) {
+                initialChips = parseInt(prompt("Please how much you're bankrolling."));
+            }
+            else if (initialChips > 2500) {
+                initialChips = parseInt(prompt("The maximum buy-in at this table is $2,500. Please enter an amount less or equal to that."));
+            }
+            else {
+                parseInt(prompt("How much are you bankrolling?"));
+            }
         }
     playerWhois.push(initialChips);
     playerHasBank = true;
