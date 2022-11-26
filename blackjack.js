@@ -187,7 +187,7 @@ const dealerIndexing = () => {
 }
 
 // VALIDATION FUNCTIONS. Tepper, 23NOV2022.
-
+// DEALER CAN HIT / DRAW NEW CARD TOGGLE.
 const dealerCanHitToggle = () => {
     if (dealerSum <= 16 && dealerIsAlive === true) {
         dealerCanHit = true;
@@ -312,6 +312,7 @@ const blackjack = () => {
     }
 }
 
+// PLAYER WINS
 const playerWinsRound = () => {
     console.log("playerwins");
     let playerWinnings = 0;
@@ -337,6 +338,7 @@ const playerWinsRound = () => {
     playerMessageEl.textContent = playerMsg;
 }
 
+// DEALER WINS
 const dealerWinsRound = () => {
     console.log("dealerwins");
     let playerWinnings = 0;
@@ -360,6 +362,7 @@ const dealerWinsRound = () => {
     playerMessageEl.textContent = playerMsg;
 }
 
+// PUSH / PLAYER-DEALER TIE
 const deadlock = () => {
     console.log("push")
     let playerWinnings = 0;
@@ -386,8 +389,7 @@ const deadlock = () => {
     playerMessageEl.textContent = playerMsg;
 }
 
-
-// END GAME PAYOUT. Calculates Winnings if player wins but != blackjack or play loss. Tepper, 23NOV2022
+// INDEXING AND TOGGLES BUNDLED
 
  // FUNCTION BUNDLES. Functions wrapped within a function. For brevity. Tepper, 23NOV2022
 
@@ -407,9 +409,8 @@ const getWinner = () => {
 
 // BUTTON FUNCTIONS. Tepper, 22NOV2022
 
-/* HIT / NEW CARD. Player draws a new card if 
-        a. playerIsAlive = true
-        b. playerHasBlackjack = false
+/* HIT / NEW CARD. 
+    Player draws a new card if (a.) playerIsAlive = true, (b.) playerHasBlackjack = false
     New card added to playerCards array.
 Tepper, 22NOV2022 */
 const hit = () => {
@@ -434,10 +435,8 @@ const hit = () => {
     }
 }
 
-/* STAY / PASS. Player uses stay() to skip drawing a card.
-        This function forces the dealer to 
-            a. reveal their hand, or 
-            b. draw a card if their card sum <= 16 
+/* STAY / PASS. 
+    Player uses stay() to skip drawing a card. Also forces the dealer to reveal their hand, or draw a card if their card sum <= 16 
 Tepper, 22NOV2022 */
 
 const stay = () => {
@@ -509,9 +508,7 @@ const newGame = () => {
 }
 
 
-/* SWITCH PLAYER. This function resets global vars and allows the player to
-        1. Use a different player name
-        2. Enter a new bank roll value
+/* ADD MONEY. This function resets some global vars and allows the player to add more chips to their current bank
 Tepper, 22NOV2022 */
 const addMoney = () => {
     console.log("add monies");
@@ -525,19 +522,25 @@ const addMoney = () => {
 
         // refresh player bank
         let moreChips = 0;
-        let whois = "";
+        let whoisText = "";
+        let playerCurrentBank = playerWhois[1];
+        let playerNewBank = 0;
 
         moreChips = parseInt(prompt("How much are you adding to your bank?"));
         while (isNaN(moreChips)) {
             moreChips = parseInt(prompt("How much are you bankrolling?"));
         }
         
-        playerWhois.splice(1);
-        playerWhois.push(moreChips);
+        playerNewBank = playerCurrentBank + moreChips;
+        console.log("morechips, newbank: " + playerCurrentBank + moreChips);
+        playerWhois.pop();
+        console.log("old bank pop(): " + playerWhois);
+        playerWhois.push(playerNewBank);
+        console.log("more chips added: " + playerWhois);
 
-        whois = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $";
+        whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $";
 
-        playerWhoisEl.textContent = whois;
+        playerWhoisEl.textContent = whoisText;
     }
 }
 
