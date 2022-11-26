@@ -527,8 +527,16 @@ const addMoney = () => {
         let playerNewBank = 0;
 
         moreChips = parseInt(prompt("How much are you adding to your bank?"));
-        while (isNaN(moreChips)) {
-            moreChips = parseInt(prompt("How much are you bankrolling?"));
+        while (isNaN(moreChips) || moreChips < 1 || moreChips > 2500) {
+            
+            chipsCheckAmount = playerCurrentBank + moreChips;
+
+            if (isNaN(moreChips) || moreChips < 1) {
+                moreChips = parseInt(prompt("Please enter a valid amount (0-2500)?"));
+            }
+            else if (chipsCheckAmount > 2500) {
+                moreChips = parseInt(prompt("The maximum buy-in at this table is $2,500. You can't add more chips that will exceed this amount."));
+            }
         }
         
         playerNewBank = playerCurrentBank + moreChips;
