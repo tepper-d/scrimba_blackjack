@@ -45,32 +45,37 @@ const whoisPlayer = () => {
     let initialChips = 0;
     let playerName = prompt("Enter player name:");
 
-    while (playerName.length === 0) {
-        playerName = prompt("Enter player name:");
-    }
-    playerWhois.push(playerName);
+    do {
+        while (playerName.length === 0) {
+            playerName = prompt("Enter player name:");
+        }
+        playerWhois.push(playerName);
 
-    initialChips = parseInt(prompt("How much are you bankrolling?"));
-        do {
-            if (isNaN(initialChips)) {
+        initialChips = parseInt(prompt("How much are you bankrolling?"));
+        
+        while (isNaN(initialChips) || initialChips > 2500 || initialChips < 1) {
+            if (isNaN(initialChips) || initialChips < 1) {
                 initialChips = parseInt(prompt("Please enter a valid amount (0 - 2500)"));
             }
             else if (initialChips > 2500) {
                 initialChips = parseInt(prompt("The maximum buy-in at this table is $2,500. Please enter an amount less or equal to that."));
             }
-            else {
+/*             else {
                 parseInt(prompt("How much are you bankrolling?"));
-            }
-        } while (isNaN(initialChips) || initialChips > 2500);
-    playerWhois.push(initialChips);
-    playerHasBank = true;
-    playerHasWhois = true;
-    console.log(playerWhois);
+            } */
+        }
 
-    whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + " || Winnings: $";
+        playerWhois.push(initialChips);
+        playerHasBank = true;
+        playerHasWhois = true;
+        console.log(playerWhois);
 
-    playerMessageEl.textContent = "Hello " + playerName + "! Do you want to play a round of Black Jack?";
-    playerWhoisEl.textContent = whois;
+        whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + " || Winnings: $";
+
+        playerMessageEl.textContent = "Hello " + playerName + "! Do you want to play a round of Black Jack?";
+        playerWhoisEl.textContent = whoisText;
+    } while (playerHasWhois === false);
+
 }
 
 
@@ -90,7 +95,7 @@ const getPlayerBet = () => {
         playerHasBank = true;
         currentBet = parseInt(prompt("How much will you bet for this game?"));
         
-        do {
+        while (isNaN(currentBet) || currentBet < 1 || currentBet > playerBankroll) {
             if (isNaN(currentBet) || currentBet < 1) {
                 currentBet = parseInt(prompt("Please enter a valid amount to bet."));
             }
@@ -98,18 +103,16 @@ const getPlayerBet = () => {
                 currentBet = parseInt(prompt("You bet amount must be less than or equal to your current bank roll."));
             }
         } 
-        while (isNaN(currentBet) || currentBet < 1 || currentBet > playerBankroll);
+
+        playerMessageEl.textContent = playerMsg;
+        playerBet = currentBet;
+        playerNewBank = playerBankroll - currentBet;
+        playerWhois[1] = playerNewBank;
+
+        whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet + " || Winnings: $";
+        playerWhoisEl.textContent = whoisText;
+        console.log(playerWhois);
     }
-    
-
-    playerMessageEl.textContent = playerMsg;
-    playerBet = currentBet;
-    playerNewBank = playerBankroll - currentBet;
-    playerWhois[1] = playerNewBank;
-
-    whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet + " || Winnings: $";
-    playerWhoisEl.textContent = whoisText;
-    console.log(playerWhois);
 }
 
 /* GENERATE RANDOM CARDS. Tepper, 22NOV2022 */
@@ -267,8 +270,11 @@ const winConditions = () => {
 // CALCULATE WINNINGS.
 // BLACKJACK! Player wins 3:2 if they get a blackjack. Tepper, 23NOV2022
 const blackjack = () => {
+    let playerWinnings = 0;
     let playerNewBank = 0;
     let playerCurrentBank = playerWhois[1];
+    let currentBet = playerBet;
+    let newGameAsk = "";
     
     if (playerSum === 21) {
         playerHasBlackjack = true;
@@ -284,12 +290,10 @@ const blackjack = () => {
 
         console.log("player blackjack!");
         
-        let payout = 0;
-        let newGameAsk = "";
-
-        payout = playerBet + (playerBet / 2);
-        console.log("blackpayout: " + payout);
-        playerNewBank = playerCurrentBank + payout;
+        playerWinnings = currentBet + (currentBet / 2);
+        playerEarns = playerWinnings;
+        console.log("blackpayout: " + playerWinnings);
+        playerNewBank = playerCurrentBank + playerWinnings;
         console.log("blacknewbank: " + playerNewBank);
 
         playerWhois.pop();
@@ -297,9 +301,9 @@ const blackjack = () => {
         playerWhois.push(playerNewBank);
         console.log("blackpush: " + playerWhois);
 
-        let whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + payout;
-        console.log("blackwhois: " + whois);
-        playerWhoisEl.textContent = whois;
+        let whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + playerEarns;
+        console.log("blackwhois: " + whoisText);
+        playerWhoisEl.textContent = whoisText;
 
         newGameAsk = prompt("Congratulations, you got blackjack! Do you want to start a new game? Y/N", "y");
         if (newGameAsk === "y" || newGameAsk === "Y") {
@@ -310,72 +314,75 @@ const blackjack = () => {
 
 const playerWinsRound = () => {
     console.log("playerwins");
-    let payout = 0;
+    let playerWinnings = 0;
     let playerNewBank = 0;
     let playerCurrentBank = playerWhois[1];
-    let bet = playerBet;
+    let currentBet = playerBet;
 
-    payout = bet * 2;
-    playerMsg = "You win! " + payout + " goes back to your bank roll. Start new game?";
+    playerWinnings = currentBet * 2;
+    playerEarns = playerWinnings;
+    playerMsg = "You win! " + playerWinnings + " goes back to your bank roll. Start new game?";
 
-    playerNewBank = playerCurrentBank + payout;
+    playerNewBank = playerCurrentBank + playerWinnings;
     console.log("playernewbank: " + playerNewBank);
     playerWhois.pop();
     console.log("playerwhois: " + playerWhois);
     playerWhois.push(playerNewBank);
     console.log("playerpush: " + playerWhois);
 
-    let whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + payout;
-    console.log("playerwhois" + whois);
+    let whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + playerEarns;
+    console.log("playerwhois" + whoisText);
 
-    playerWhoisEl.textContent = whois;
+    playerWhoisEl.textContent = whoisText;
     playerMessageEl.textContent = playerMsg;
 }
 
 const dealerWinsRound = () => {
     console.log("dealerwins");
-    let payout = 0;
+    let playerWinnings = 0;
     let playerNewBank = 0;
     let playerCurrentBank = playerWhois[1];
 
     playerMsg = "Sorry, the house wins this round. Do you want to try again?";
-    payout = 0;
 
-    playerNewBank = playerCurrentBank + payout;
+    playerNewBank = playerCurrentBank + playerWinnings;
+    playerEarns = playerWinnings;
     console.log("dealernew bank: " + playerNewBank);
     playerWhois.pop();
     console.log("dealerpop: " + playerWhois);
     playerWhois.push(playerNewBank);
     console.log("dealerpush: " + playerWhois);
 
-    let whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + payout;
-    console.log("dealerwhois" + whois);
+    let whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + playerEarns;
+    console.log("dealerwhois" + whoisText);
 
-    playerWhoisEl.textContent = whois;
+    playerWhoisEl.textContent = whoisText;
     playerMessageEl.textContent = playerMsg;
 }
 
 const deadlock = () => {
     console.log("push")
-    let payout = 0;
+    let playerWinnings = 0;
     let playerNewBank = 0;
     let playerCurrentBank = playerWhois[1];
+    let currentBet = playerBet;
 
-    payout = bet;
-    console.log("deadlockpayout" + payout);
+    playerWinnings = currentBet;
+    console.log("deadlockpayout" + playerWinnings);
+    playerEarns = playerWinnings;
     playerMsg = "It's a push. You get original bet back.";
 
-    playerNewBank = playerCurrentBank + payout;
+    playerNewBank = playerCurrentBank + payerWinnings;
     console.log("deadlocknewbank" + playerNewBank);
     playerWhois.pop();
     console.log("deadlockpop" + playerWhois);
     playerWhois.push(playerNewBank);
     console.log("deadlockpush" + playerWhois);
 
-    let whois = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + payout;
-    console.log("deadlockwhois" + whois);
+    let whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Bet: $" + playerBet; +  " || Winnings: $" + playerEarns;
+    console.log("deadlockwhois" + whoisText);
 
-    playerWhoisEl.textContent = whois;
+    playerWhoisEl.textContent = whoisText;
     playerMessageEl.textContent = playerMsg;
 }
 
@@ -469,34 +476,36 @@ Tepper, 22NOV2022 */
 const newGame = () => {
     console.log("new game");
 
-    // get bet
-    getPlayerBet();
-
-    if (playerHasBank === false) {
-        alert("Insufficient bankroll amount. Click 'Switch Player' to load new amount.");
-    }
-    else if (playerHasWhois === false) {
+    if (playerHasWhois === false) {
         alert("You need a player profile to play in this table.");
     }
-    else if (playerHasBank === true) {
-        // reset values
-        resetGame();
+    else if (playerHasWhois === true){
+        getPlayerBet();
+        // get bet
+        if (playerHasBank === false) {
+            alert("Insufficient bankroll amount. Click 'Switch Player' to load new amount.");
+        }
 
-        // generate 2 cards
-        getPlayerCard();
-        getDealerCard();
-        getPlayerCard();
-        getDealerCard();
+        else if (playerHasBank === true) {
+            // reset values
+            resetGame();
 
-        // player and dealer are still in the game
-        playerIsAlive = true;
-        dealerIsAlive = true;
+            // generate 2 cards
+            getPlayerCard();
+            getDealerCard();
+            getPlayerCard();
+            getDealerCard();
 
-        // textContent print
-        playerIndexing();
-        dealerIndexing();
+            // player and dealer are still in the game
+            playerIsAlive = true;
+            dealerIsAlive = true;
+
+            // textContent print
+            playerIndexing();
+            dealerIndexing();
+        }
+        getWinner();
     }
-    getWinner();
 }
 
 
@@ -507,23 +516,29 @@ Tepper, 22NOV2022 */
 const addMoney = () => {
     console.log("add monies");
 
-    resetGame();
-
-    // refresh player bank
-    let moreChips = 0;
-    let whois = "";
-
-    moreChips = parseInt(prompt("How much are you adding to your bank?"));
-    while (isNaN(moreChips)) {
-        moreChips = parseInt(prompt("How much are you bankrolling?"));
+    if (playerHasWhois === false) {
+        alert("You need a player profile to play in this table.");
     }
-    
-    playerWhois.splice(1);
-    playerWhois.push(moreChips);
+    else {
+        resetGame();
+        playerHasWhois = false;
 
-    whois = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $";
+        // refresh player bank
+        let moreChips = 0;
+        let whois = "";
 
-    playerWhoisEl.textContent = whois;
+        moreChips = parseInt(prompt("How much are you adding to your bank?"));
+        while (isNaN(moreChips)) {
+            moreChips = parseInt(prompt("How much are you bankrolling?"));
+        }
+        
+        playerWhois.splice(1);
+        playerWhois.push(moreChips);
+
+        whois = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $";
+
+        playerWhoisEl.textContent = whois;
+    }
 }
 
 
@@ -536,7 +551,6 @@ const resetGame = () => {
     playerBet = 0;
     playerSum = 0;
     playerEarns = 0;
-    playerHasWhois = false;
     playerHasBlackjack = false;
     playerIsAlive = false;
     playerStays = false;
