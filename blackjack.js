@@ -512,13 +512,18 @@ const newGame = () => {
 Tepper, 22NOV2022 */
 const addMoney = () => {
     console.log("add monies");
-
     if (playerHasWhois === false) {
         alert("You need a player profile to play in this table.");
     }
     else {
         resetGame();
-        playerHasWhois = false;
+
+        if (playerWhois[1] > 0) {
+            playerHasWhois = true;
+        }
+        else {
+            playerHasWhois = false;
+        }
 
         // refresh player bank
         let moreChips = 0;
@@ -527,17 +532,19 @@ const addMoney = () => {
         let playerNewBank = 0;
 
         moreChips = parseInt(prompt("How much are you adding to your bank?"));
-        while (isNaN(moreChips) || moreChips < 1 || moreChips > 2500) {
-            
-            chipsCheckAmount = playerCurrentBank + moreChips;
+        let chipsCheckAmount = playerCurrentBank + moreChips;
 
+        do {
+            moreChips = 0; 
             if (isNaN(moreChips) || moreChips < 1) {
+                moreChips = 0;
                 moreChips = parseInt(prompt("Please enter a valid amount (0-2500)?"));
             }
             else if (chipsCheckAmount > 2500) {
+                moreChips = 0;
                 moreChips = parseInt(prompt("The maximum buy-in at this table is $2,500. You can't add more chips that will exceed this amount."));
             }
-        }
+        } while (isNaN(moreChips) || moreChips < 1 || chipsCheckAmount > 2500);
         
         playerNewBank = playerCurrentBank + moreChips;
         console.log("morechips, newbank: " + playerCurrentBank + moreChips);
@@ -547,7 +554,6 @@ const addMoney = () => {
         console.log("more chips added: " + playerWhois);
 
         whoisText = playerWhois[0] + ": $" + playerWhois[1] + " || Current bet: $";
-
         playerWhoisEl.textContent = whoisText;
     }
 }
@@ -581,6 +587,180 @@ const resetGame = () => {
 
 
 /*************** EXTRA CHALLENGES ***************/
+/* PP2 LESSON 9: PASSWORD GENERATOR. Tepper, 26NOV2022 */
+let pw1el = document.getElementById("pw1-el");
+let pw2el = document.getElementById("pw2-el");
+let generatePasswords = document.getElementById("generatePasswords");
+const characters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9","~","`","!","@","#","$","%","^","&","*","(",")","_","-","+","=","{","[","}","]",",","|",":",";","<",">",".","?",
+"/"];
+
+generatePasswords.addEventListener("click", function() {
+    // PW1
+    let pw1 = "";
+        for (let i = 0; i < 15; i++) {
+            pw1 += characters[Math.floor(Math.random() * characters.length)];
+        }
+        
+        pw1el.textContent = "Random Password 1: " + pw1;
+    // PW2
+    let pw2 = "";
+    for (let j = 0; j < 15; j++) {
+        pw2 += characters[Math.floor(Math.random() * characters.length)];
+        console.log(pw2 + " " + pw2.length);
+    }
+    pw2el.textContent = "Random Password 2: " + pw2;
+
+
+});
+
+
+
+/* PP2 LESSON 8: SORT FRUITS. Tepper, 26NOV2022 */
+/* const sortFruits = () => {
+    let fruit = ["🍎", "🍊", "🍎", "🍎", "🍊"];
+    let appleShelf = document.getElementById("apple-shelf");
+    let orangeShelf = document.getElementById("orange-shelf");
+
+    for (let i = 0; i < fruit.length; i++) {
+        if (fruit[i] === "🍎") {
+            appleShelf.textContent += "🍎";
+        } else if (fruit[i] === "🍊") {
+            orangeShelf.textContent += "🍊";
+        }
+    }
+}
+sortFruits(); */
+
+/* PP2 LESSON 7: EMOJI FIGHTER. 
+    When the "Pick Fighters" button is clicked, 2 random emojis are chosen and displayed
+Tepper, 26NOV2022 */
+/*     let stageEl = document.getElementById("stage");
+    let fightButton = document.getElementById("fightButton");
+
+    let fighters = ["🐉", "🐥", "🐊","💩", "🦍", "🐢", "🐩", "🦭", "🦀", "🐝", "🤖", "🐘", "🐸", "🕷","🐆", "🦕", "🦁"]
+
+    fightButton.addEventListener("click", function() {
+        let i = Math.floor(Math.random() * fighters.length);
+        let j = Math.floor(Math.random() * fighters.length);
+        let playerOne = fighters[i];
+        let playerTwo = fighters[j];
+        let match = playerOne + " vs " + playerTwo;
+        console.log (playerOne + " vs " + playerTwo);
+
+        stageEl.textContent = match;
+    }); */
+
+/* PP2 Lesson 6: ROCK PAPER SCISSORS. Tepper, 26NOV2022 */
+/* const rockPaperScissors = () => {
+    let rps = ["Rock", "Paper", "Scissors"];
+    let i = Math.floor(Math.random() * 3);
+
+    let rpsOutcome = rps[i];
+
+    console.log(i + " " + rpsOutcome);
+} */
+
+/* PP2 LESSON 5: LOGICAL OPERATORS
+Tepper, 26NOV2022 */
+/* const fridayThe13th = () => {
+    let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let dayOfMonth = Math.floor(Math.random() * 31) + 1;
+    let randomDay = Math.floor(Math.random() * 6);
+    let randomDayOfWeek = daysOfWeek[randomDay];
+
+    if (randomDayOfWeek === "Friday" && dayOfMonth === 13){
+        console.log("😱 It's Friday the 13th! 😱");
+    }
+    else if (randomDayOfWeek === "Monday" || randomDayOfWeek === "Tuesday" || randomDayOfWeek === "Wednesday" || randomDayOfWeek === "Thursday") {
+        console.log(dayOfMonth + " " + randomDayOfWeek + " It's a weekday");
+    }
+    else if (randomDayOfWeek === "Friday") {
+        console.log(dayOfMonth + " Alexa, play Rebecca Black's 'Friday'.")
+    }
+    else if (randomDayOfWeek === "Saturday" || randomDayOfWeek === "Sunday") {
+        console.log(dayOfMonth + " " + randomDayOfWeek + " Enjoy the weekend!");
+    }
+} */
+
+/* PP2 LESSON 3: Loops and Arrays
+        Use a for loop to log array contents to console
+
+    LESSON 4: push, pop, unshift, shift
+        Use push, pop, unshift, shift, to modify array
+Tepper, 26NOV2022 */
+/* const largeCountries = () => {
+    let largeCountries = ["China", "India", "USA", "Indonesia", "Pakistan"];
+    let itemNum = 1;
+    let countriesList = "";
+
+    for (let i = 0; i < largeCountries.length; i++) {
+        countriesList += itemNum + ". " + largeCountries[i] + "\n";
+        itemNum++;
+    }
+    
+    console.log("Lesson 3:\n" + countriesList);
+    console.log("\nLesson 4: Push, Pop, Shift, Unshift")
+    let countries = ["Tuvalu", "India", "USA", "Indonesia", "Monaco"];
+    let itemNum2 = 1;
+    let countriesList2 = "";
+
+    console.log(countries);
+    countries.shift();
+    console.log("Shift: " + countries);
+    countries.pop();
+    console.log("Pop: " + countries);
+    countries.unshift("China");
+    console.log("Unshift: " + countries);
+    countries.push("Pakistan");
+    console.log("Push: " + countries);
+
+    for (let i = 0; i < countries.length; i++) {
+        countriesList2 += itemNum2 + ". " + countries[i] + "\n";
+        itemNum2++;
+    }
+    console.log("The correct list of countries should be:\n" + countriesList2);
+} */
+
+/* PP2 LESSON 2: if-else
+    Create conditionals that logs the discount the passenger is eligible based on their age.
+Tepper, 26NOV2022*/
+/* const discounts = () => {
+    let age = Math.floor(Math.random() * 120);
+
+    console.log("Practice Part 2, Lesson 2: if-else");
+    
+    if (age >= 67) {
+        console.log("Age: " + age + "\nDiscount: Senior citizen discount");
+    }
+    else if (age >= 27) {
+        console.log("Age: " + age + "\nDiscount: Full price");
+    }
+    else if (age >= 18) {
+        console.log("Age: " + age + "\nDiscount: Student discount");
+    }
+    else if (age >= 6) {
+        console.log("Age: " + age + "\nDiscount: Child discount");
+    }
+    else if (age >= 0) {
+        console.log("Age: " + age + "\nDiscount: Free");
+    }
+} */
+
+/* PP2 LESSON 1: OBJECTS AND FUNCTIONS
+    1. Create a person object that contains name, age, country
+    2. Create a logData() fxn that uses Person to complete a string
+    3. log logData()
+Tepper, 26NOV2022 */
+/* let person = {
+    name: "Snoopy",
+    age: 10,
+    country: "USA"
+}
+
+const logData = () => {
+    console.log("Practice Part 2, Lesson 1: Objects and Functions\n" + person.name + " is " + person.age + " years old and is in " + person.country);
+} */
+
 /* LESSON 23: ARRAYS WITH MULTIPLE DATA TYPES
     Create an array that uses the three primitive data types (num, string, boolean)
 Tepper, 21NOV2022 */
