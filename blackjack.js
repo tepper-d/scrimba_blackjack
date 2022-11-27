@@ -599,6 +599,7 @@ generatePasswords.addEventListener("click", function() {
     let pw1 = "";
         for (let i = 0; i < 15; i++) {
             pw1 += characters[Math.floor(Math.random() * characters.length)];
+            console.log(pw1 + " " + pw1.length);
         }
         
         pw1el.textContent = "Random Password 1: " + pw1;
@@ -612,7 +613,6 @@ generatePasswords.addEventListener("click", function() {
 
 
 });
-
 
 
 /* PP2 LESSON 8: SORT FRUITS. Tepper, 26NOV2022 */
