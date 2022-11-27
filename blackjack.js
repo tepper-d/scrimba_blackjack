@@ -616,7 +616,7 @@ generatePasswords.addEventListener("click", function() {
 
 
 /* PP2 LESSON 8: SORT FRUITS. Tepper, 26NOV2022 */
-/* const sortFruits = () => {
+const sortFruits = () => {
     let fruit = ["🍎", "🍊", "🍎", "🍎", "🍊"];
     let appleShelf = document.getElementById("apple-shelf");
     let orangeShelf = document.getElementById("orange-shelf");
@@ -629,12 +629,12 @@ generatePasswords.addEventListener("click", function() {
         }
     }
 }
-sortFruits(); */
+sortFruits();
 
 /* PP2 LESSON 7: EMOJI FIGHTER. 
     When the "Pick Fighters" button is clicked, 2 random emojis are chosen and displayed
 Tepper, 26NOV2022 */
-/*     let stageEl = document.getElementById("stage");
+    let stageEl = document.getElementById("stage");
     let fightButton = document.getElementById("fightButton");
 
     let fighters = ["🐉", "🐥", "🐊","💩", "🦍", "🐢", "🐩", "🦭", "🦀", "🐝", "🤖", "🐘", "🐸", "🕷","🐆", "🦕", "🦁"]
@@ -648,7 +648,7 @@ Tepper, 26NOV2022 */
         console.log (playerOne + " vs " + playerTwo);
 
         stageEl.textContent = match;
-    }); */
+    });
 
 /* PP2 Lesson 6: ROCK PAPER SCISSORS. Tepper, 26NOV2022 */
 /* const rockPaperScissors = () => {
